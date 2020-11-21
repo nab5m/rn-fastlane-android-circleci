@@ -1,0 +1,19 @@
+version: 2.1
+orbs:
+  ruby: circleci/ruby@1.0
+  node: circleci/node@2
+  android: circleci/android@0.2.1
+
+jobs:
+  build:
+    docker:
+      - image: circleci/android:api-29-node
+    executor: android/android
+    steps:
+      - checkout
+      - run: gem install fastlane
+      - node/install-packages:
+          pkg-manager: yarn
+          cache-key: "yarn.lock"
+      - run: yarn beta:android
+
